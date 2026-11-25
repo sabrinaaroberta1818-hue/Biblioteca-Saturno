@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6d45a8">
+  <title>Saturno — Biblioteca pessoal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" data-page="home">
+        <span class="brand-mark">✦</span>
+        <span><strong>saturno</strong><small>biblioteca pessoal</small>
+        </span>
+    </a>
+      <div class="side-label">BIBLIOTECA</div>
+      <nav class="nav-menu" aria-label="Navegação principal">
+        <button class="nav-link active" data-page="home"><span>⌂</span> Visão geral</button>
+        <button class="nav-link" data-page="catalog"><span>▤</span> Meu catálogo</button>
+        <button class="nav-link" data-page="categories"><span>▦</span> Categorias</button>
+        <button class="nav-link" data-page="reading"><span>◷</span> Lista de leitura</button>
+        <button class="nav-link" data-page="favorites"><span>♡</span> Favoritos</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-label">PREFERÊNCIAS</div>
+        <button class="nav-link" data-page="settings"><span>⚙</span> Configurações</button>
+        <div class="sidebar-note"><span>✧</span><p>Um universo inteiro<br>na sua estante.</p></div>
+        <div class="profile"><div class="avatar">S</div><div><strong>Minha biblioteca</strong><small>Espaço pessoal</small></div></div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Abrir menu">☰</button>
+        <div class="breadcrumb">Saturno <span>/</span> <strong id="currentSection">Visão geral</strong></div>
+        <div class="top-actions"><span class="today" id="today"></span>
+            <button class="icon-button" id="themeToggle" title="Alternar tema" aria-label="Alternar tema">☾</button></div>
+      </header>
+
+      <section class="page active" id="page-home">
+        <div class="welcome-row">
+          <div><div class="eyebrow">SEU UNIVERSO PARTICULAR</div><h1>Olá, leitor(a) <span class="sparkle">✦</span></h1>
+          <p class="muted">Cada livro é uma nova órbita. Que história vamos descobrir hoje?</p></div>
+          <button class="primary-button" data-action="new-book">＋ Adicionar livro</button>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon purple">▤</div>
+            <span class="stat-label">Livros no acervo</span>
+            <strong id="totalBooks">0</strong>
+            <small>Todos os seus títulos</small>
+        </article>
+          <article class="stat-card">
+            <div class="stat-icon pink">♡</div>
+            <span class="stat-label">Favoritos</span>
+            <strong id="totalFavorites">0</strong>
+            <small>Seus livros especiais</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon blue">◷</div>
+            <span class="stat-label">Em andamento</span>
+            <strong id="totalReading">0</strong>
+            <small>Leituras atuais</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-icon gold">✓</div>
+            <span class="stat-label">Livros lidos</span>
+            <strong id="totalRead">0</strong>
+            <small>Jornada concluída</small>
+          </article>
+        </div>
+        <div class="content-grid">
+          <section class="panel">
+            <div class="panel-heading">
+                <div>
+                    <span class="eyebrow">ORGANIZAÇÃO</span>
+                    <h2>Livros por categoria</h2>
+                </div>
+                <button class="text-button" data-page="categories">Gerenciar ↗</button>
+            </div>
+            <div id="homeCategories" class="category-bars empty-inline">
+                Suas categorias aparecerão aqui quando você começar a organizar o acervo.
+            </div>
+        </section>
+          <section class="panel quick-panel">
+            <span class="eyebrow">COMECE POR AQUI</span>
+            <h2>Sua próxima leitura começa agora.</h2>
+            <p class="muted">Adicione arquivos, organize sua estante e acompanhe seu ritmo de leitura.</p>
+            <button class="quick-link" data-page="catalog"><span>▤</span>
+                <span><b>Explorar catálogo</b><small>Veja todos os seus livros</small></span><i>↗</i></button>
+            <button class="quick-link" data-page="reading"><span>◷</span>
+                <span><b>Lista de leitura</b><small>Planeje suas próximas histórias</small></span><i>↗</i></button>
+          </section>
+        </div>
+        <section class="panel recent-panel">
+            <div class="panel-heading">
+                <div>
+                    <span class="eyebrow">SUA ESTANTE</span>
+                    <h2>Adicionados recentemente</h2>
+                </div>
+                <button class="text-button" data-page="catalog">Ver catálogo ↗</button>
+            </div>
+            <div id="recentBooks" class="book-grid empty-state">
+                <span class="empty-icon">✧</span>
+                <b>Sua estante está esperando por você</b>
+                <p>Adicione seu primeiro livro para começar.</p>
+                <button class="secondary-button" data-action="new-book">Adicionar primeiro livro</button>
+            </div>
+        </section>
+      </section>
+
+      <section class="page" id="page-catalog">
+        <div class="page-heading">
+            <div>
+                <div class="eyebrow">SEU ACERVO DIGITAL</div>
+                <h1>Meu catálogo</h1>
+                <p class="muted">Armazene, encontre e gerencie seus livros em um só lugar.</p>
+            </div>
+            <button class="primary-button" data-action="new-book">＋ Adicionar livro</button>
+        </div>
+        <div class="toolbar">
+            <label class="search-box">
+                <span>⌕</span>
+            <input id="searchBooks" type="search" placeholder="Pesquisar por título...">
+            </label>
+            <select id="filterCategory" aria-label="Filtrar por categoria">
+                <option value="">Todas as categorias</option>
+            </select>
+            <select id="sortBooks" aria-label="Ordenar livros">
+                <option value="recent">Mais recentes</option>
+                <option value="title">Título (A–Z)</option>
+                <option value="author">Autor (A–Z)</option>
+            </select>
+        </div>
+        <div id="catalogGrid" class="book-grid empty-state">
+            <span class="empty-icon">▤</span>
+            <b>Nenhum livro cadastrado</b>
+            <p>Seu catálogo está vazio. Que tal adicionar um título?</p>
+            <button class="secondary-button" data-action="new-book">＋ Adicionar livro</button>
+        </div>
+      </section>
+
+      <section class="page" id="page-categories">
+        <div class="page-heading">
+            <div>
+                <div class="eyebrow">ORGANIZAÇÃO DO ACERVO</div>
+                <h1>Categorias</h1>
+                <p class="muted">Crie categorias para manter sua biblioteca em ordem.</p>
+            </div>
+            <button class="primary-button" data-action="new-category">＋ Nova categoria</button>
+        </div>
+        <div id="categoriesGrid" class="category-grid empty-state">
+            <span class="empty-icon">▦</span>
+            <b>Nenhuma categoria criada</b>
+            <p>Crie sua primeira categoria para organizar os livros.</p>
+            <button class="secondary-button" data-action="new-category">＋ Criar categoria</button>
+        </div>
+      </section>
+
+      <section class="page" id="page-reading">
+        <div class="page-heading">
+            <div>
+                <div class="eyebrow">SEU PERCURSO LITERÁRIO</div>
+                <h1>Lista de leitura</h1>
+                <p class="muted">Acompanhe cada etapa da sua jornada.</p>
+            </div>
+            <button class="primary-button" data-page="catalog">＋ Escolher livro</button>
+        </div>
+        <div class="tabs" id="readingTabs">
+            <button class="tab active" data-status="Quero ler">Quero ler <span id="countWant">0</span></button>
+            <br><br>
+            <button class="tab" data-status="Lendo">Lendo <span id="countDoing">0</span></button>
+            <br><br>
+            <button class="tab" data-status="Lidos">Lidos <span id="countDone">0</span></button>
+            <br><br>
+        </div>
+        <div id="readingGrid" class="book-grid empty-state">
+            <span class="empty-icon">◷</span>
+            <b>Sua lista está vazia</b>
+            <p>Adicione livros à sua lista pelo catálogo.</p>
+            <button class="secondary-button" data-page="catalog">Ir para o catálogo</button>
+        </div>
+      </section>
+
+      <section class="page" id="page-favorites">
+        <div class="page-heading">
+            <div>
+                <div class="eyebrow">SELEÇÃO ESPECIAL</div>
+                <h1>Meus favoritos</h1>
+                <p class="muted">Os livros que você quer manter sempre por perto.</p>
+            </div>
+        </div>
+        <div id="favoritesGrid" class="book-grid empty-state">
+            <span class="empty-icon">♡</span>
+            <b>Nenhum favorito por enquanto</b>
+            <p>Toque no coração de um livro para guardá-lo aqui.</p>
+            <button class="secondary-button" data-page="catalog">Explorar catálogo</button>
+        </div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-heading">
+          <div>
+            <div class="eyebrow">PERSONALIZE SEU ESPAÇO</div>
+            <h1>Configurações</h1>
+            <p class="muted">Ajuste a experiência da sua biblioteca.</p>
+          </div>
+        </div>
+        <div class="settings-layout">
+          <section class="panel settings-panel">
+            <h2>Aparência</h2>
+            <div class="setting-row">
+                <div><b>Tema da interface</b>
+                    <small>Alterne entre os modos claro e escuro.</small>
+                </div>
+                <button class="secondary-button" id="settingsTheme">Ativar modo escuro</button>
+            </div>
+            <div class="setting-row">
+                <div><b>Exibição do catálogo</b>
+                    <small>Escolha quantos livros aparecem por linha.</small>
+                </div>
+                <select id="gridPreference">
+                    <option value="3">Três colunas</option>
+                    <option value="4">Quatro colunas</option>
+                    <option value="2">Duas colunas</option>
+                </select>
+            </div>
+          </section>
+          <section class="panel settings-panel">
+            <h2>Dados e armazenamento</h2>
+            <div class="setting-row">
+              <div><b>Exportar biblioteca</b>
+                <small>Baixe seus livros e categorias em JSON (sem os arquivos anexados).</small>
+              </div>
+              <button class="secondary-button" id="exportData">Exportar dados</button>
+            </div>
+            <div class="setting-row">
+              <div><b>Limpar biblioteca</b>
+                <small>Apague os dados locais deste navegador.</small>
+              </div>
+              <button class="danger-button" id="clearData">Limpar dados</button>
+            </div>
+            <p class="settings-hint">Os dados são armazenados localmente neste navegador. Faça uma exportação para manter uma cópia de segurança.</p>
+          </section>
+        </div>
+      </section>
+      <footer class="footer">SATURNO <span>✦</span> Seu universo de leitura.</footer>
+    </main>
+  </div>
+
+  <dialog id="bookDialog" class="modal">
+    <form id="bookForm" class="modal-form">
+      <div class="modal-heading"><div><span class="eyebrow">ACERVO PESSOAL</span><h2 id="bookDialogTitle">Adicionar livro</h2></div><button type="button" class="close-button" data-close="bookDialog" aria-label="Fechar">×</button></div>
+      <input type="hidden" id="bookId">
+      <div class="form-grid">
+        <label class="field full">Título *<input id="bookTitle" required maxlength="140" placeholder="Título do livro"></label>
+        <label class="field">Autor<input id="bookAuthor" maxlength="100" placeholder="Nome do autor"></label>
+        <label class="field">Ano de publicação<input id="bookYear" type="number" min="0" max="2100" placeholder="Ex.: 2024"></label>
+        <label class="field full">Categoria<select id="bookCategory"><option value="">Sem categoria</option></select></label>
+        <label class="field full">Descrição<textarea id="bookDescription" rows="3" maxlength="1200" placeholder="Uma breve descrição..."></textarea></label>
+        <label class="field full">Arquivo do livro (PDF ou EPUB)<input id="bookFile" type="file" accept=".pdf,.epub,application/pdf,application/epub+zip"><small id="fileHint">O arquivo será mantido neste navegador.</small></label>
+        <label class="field full">Capa (opcional)<input id="bookCover" type="file" accept="image/*"></label>
+      </div>
+      <div class="modal-actions"><button type="button" class="secondary-button" data-close="bookDialog">Cancelar</button><button class="primary-button" type="submit">Salvar livro</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="categoryDialog" class="modal small-modal">
+    <form id="categoryForm" class="modal-form">
+      <div class="modal-heading">
+        <div><span class="eyebrow">ORGANIZAÇÃO</span>
+            <h2 id="categoryDialogTitle">Nova categoria</h2>
+        </div>
+        <button type="button" class="close-button" data-close="categoryDialog">×</button>
+    </div>
+      <input type="hidden" id="categoryId">
+      <label class="field">Nome da categoria *<input id="categoryName" required maxlength="40" placeholder="Ex.: Fantasia"></label>
+      <div class="modal-actions">
+        <button type="button" class="secondary-button" data-close="categoryDialog">Cancelar</button>
+        <button class="primary-button" type="submit">Salvar</button>
+    </div>
+    </form>
+  </dialog>
+
+  <dialog id="detailsDialog" class="modal details-modal">
+    <div id="detailsContent"></div>
+    <div class="modal-actions">
+        <button class="secondary-button" data-close="detailsDialog">Fechar</button>
+    </div>
+</dialog>
+  <dialog id="readerDialog" class="modal reader-modal">
+    <div class="modal-heading">
+        <h2 id="readerTitle">Leitor</h2>
+        <button class="close-button" data-close="readerDialog">×</button>
+    </div>
+    <div id="readerContent" class="reader-content"></div>
+    <div class="reader-controls">
+        <button class="secondary-button" id="prevChapter">← Anterior</button>
+        <button class="secondary-button" id="nextChapter">Próximo →</button>
+    </div>
+</dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
